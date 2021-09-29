@@ -20,11 +20,26 @@ import { useAsync } from 'react-use';
 import { techdocsApiRef } from '../../api';
 import { Reader } from './Reader';
 import { TechDocsPageHeader } from './TechDocsPageHeader';
+import { TechDocsEntityMetadata, TechDocsMetadata } from '../../types';
 
 import { Content, Page } from '@backstage/core-components';
+import { EntityName } from '@backstage/catalog-model';
 import { useApi } from '@backstage/core-plugin-api';
 
-export const TechDocsPage = () => {
+type Props = {
+  withSearch?: boolean;
+  children?: ({
+    techdocsMetadataValue,
+    entityMetadataValue,
+    entityId,
+  }: {
+    techdocsMetadataValue?: TechDocsMetadata | undefined;
+    entityMetadataValue?: TechDocsEntityMetadata | undefined;
+    entityId?: EntityName;
+  }) => JSX.Element;
+};
+
+export const TechDocsPage = ({ children, withSearch = true }: Props) => {
   const [documentReady, setDocumentReady] = useState<boolean>(false);
   const { namespace, kind, name } = useParams();
 
@@ -48,17 +63,22 @@ export const TechDocsPage = () => {
 
   return (
     <Page themeId="documentation">
-      <TechDocsPageHeader
-        techDocsMetadata={techdocsMetadataValue}
-        entityMetadata={entityMetadataValue}
-        entityId={{
-          kind,
-          namespace,
-          name,
-        }}
-      />
+      {children ? (
+        children({
+          techdocsMetadataValue,
+          entityMetadataValue,
+          entityId: { kind, namespace, name },
+        })
+      ) : (
+        <TechDocsPageHeader
+          techDocsMetadata={techdocsMetadataValue}
+          entityMetadata={entityMetadataValue}
+          entityId={{ kind, namespace, name }}
+        />
+      )}
       <Content data-testid="techdocs-content">
         <Reader
+          withSearch={withSearch}
           onReady={onReady}
           entityId={{
             kind,
