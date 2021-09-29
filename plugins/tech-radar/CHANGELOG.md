@@ -1,5 +1,14 @@
 # @backstage/plugin-tech-radar
 
+## 0.4.9
+
+### Patch Changes
+
+- c1ef701395: Added `SearchBar` to allow filtering and a scroll bar to display hidden tech
+- Updated dependencies
+  - @backstage/core-plugin-api@0.1.9
+  - @backstage/core-components@0.6.0
+
 ## 0.4.8
 
 ### Patch Changes
