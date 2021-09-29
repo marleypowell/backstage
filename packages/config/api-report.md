@@ -17,6 +17,7 @@ export type Config = {
   };
   has(key: string): boolean;
   keys(): string[];
+  getMap(): Record<string, JsonPrimitive>;
   get<T = JsonValue>(key?: string): T;
   getOptional<T = JsonValue>(key?: string): T | undefined;
   getConfig(key: string): Config;
@@ -51,6 +52,8 @@ export class ConfigReader implements Config {
   getConfig(key: string): ConfigReader;
   // (undocumented)
   getConfigArray(key: string): ConfigReader[];
+  // (undocumented)
+  getMap(): Record<string, any>;
   // (undocumented)
   getNumber(key: string): number;
   // (undocumented)
